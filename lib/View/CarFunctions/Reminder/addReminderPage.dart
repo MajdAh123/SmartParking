@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_parking/View/CarFunctions/BookParking/Controllers/book_parking_Controller.dart';
@@ -26,7 +26,7 @@ class AddReminderPage extends StatefulWidget {
 class _AddReminderPageState extends State<AddReminderPage> {
   VehicleController vehicleController = Get.put(VehicleController());
   BookParkingController bookParkingController =
-      Get.put(BookParkingController());
+      Get.find<BookParkingController>();
   // ReminderController reminderController = Get.put(Re)
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
       appBar: AppBar(
         leading: SizedBox(),
         leadingWidth: 5,
-        title: Text("EMIRATES SMART PARKING"),
+        title: Text("EMIRATES SMART PARKING".tr),
         centerTitle: true,
       ),
       body: Container(
@@ -52,9 +52,10 @@ class _AddReminderPageState extends State<AddReminderPage> {
               GetBuilder(
                   init: ReminderController(),
                   builder: (controller) {
-                    return CarouselSlider(
-                      options: CarouselOptions(
+                    return carousel.CarouselSlider(
+                      options: carousel.CarouselOptions(
                         height: 140.0,
+                        enableInfiniteScroll: false,
                         autoPlayCurve: Curves.easeInCubic,
                         initialPage: vehicleController.myVehicles
                             .indexOf(widget.vehicle),
@@ -95,10 +96,10 @@ class _AddReminderPageState extends State<AddReminderPage> {
                       : Column(
                           children: [
                             DropDownItemWidget(
-                              label: "EMIRATE".tr,
+                              label: "City".tr,
                               items: AppData.emirates,
                               stelctedItem: controller.emirate.value,
-                              onchange: (String? newValue) {
+                              onchange: (newValue) {
                                 controller.emirate.value = newValue!;
                                 // bookParkingController.emirate.value = newValue!;
                                 controller.zoneCodesEmirate.value =
@@ -113,7 +114,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
                               label: "zone code".tr,
                               items: controller.zoneCodesEmirate,
                               stelctedItem: controller.zoneCode.value,
-                              onchange: (String? newValue) {
+                              onchange: (newValue) {
                                 controller.zoneCode.value = newValue!;
                                 controller.update();
                                 // setState(() {});
@@ -132,7 +133,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
                               label: "remind me before".tr,
                               items: AppData.remaindMeBeforOption,
                               stelctedItem: controller.reminderBefor.value,
-                              onchange: (String? newValue) {
+                              onchange: (newValue) {
                                 controller.zoneCode.value = newValue!;
                                 controller.update();
                                 // setState(() {});

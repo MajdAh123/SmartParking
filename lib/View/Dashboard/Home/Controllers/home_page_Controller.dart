@@ -11,7 +11,7 @@ class HomePageController extends GetxController {
   RxInt year = DateTime.now().year.obs;
   String date = '';
   RxInt ticketsValue = 0.obs;
-  RxInt hoursValue = 0.obs;
+  RxDouble hoursValue = 0.0.obs;
   RxDouble paidValue = 0.0.obs;
   List<Ticket> activeTickets = [];
   List<Ticket> recentTickets = [];
@@ -88,18 +88,27 @@ class HomePageController extends GetxController {
   void getTicktesValues() {
     List<Ticket> allTikcet = tickets
         .where((element) =>
-            element.endTime.year == year.value &&
-            element.endTime.month == month.value)
+            element.startTime.year == year.value &&
+            element.startTime.month == month.value)
         .toList();
     ticketsValue.value = allTikcet.length;
     hoursValue.value = 0;
     paidValue.value = 0;
     for (Ticket tik in allTikcet) {
-      hoursValue.value += int.parse(AppMethods.extractNumbers(tik.duration));
+      hoursValue.value += double.parse(tik.duration);
       paidValue.value += tik.cost;
     }
     // update();
   }
+
+  // bool checkCarAvailble(int id) {
+  //   for (Vehicle vehicle in vehicles) {
+  //     if (vehicle.id == id) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
   getActiveTickets() {
     activeTickets = tickets

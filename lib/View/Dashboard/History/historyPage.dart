@@ -5,6 +5,7 @@ import 'package:smart_parking/View/Dashboard/History/Controllers/historyControll
 import 'package:smart_parking/View/Dashboard/Home/Widget/courlsCardOne.dart';
 import 'package:smart_parking/View/Dashboard/Vehicles/Models/VehicleModel.dart';
 import 'package:smart_parking/constant/appcolors.dart';
+import 'package:smart_parking/logale/locale_Cont.dart';
 import 'Widget/historyCard.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HistoryPageState extends State<HistoryPage> {
         appBar: AppBar(
           leading: SizedBox(),
           leadingWidth: 5,
-          title: Text("EMIRATES SMART PARKING"),
+          title: Text("EMIRATES SMART PARKING".tr),
           centerTitle: true,
         ),
         body: Column(
@@ -46,7 +47,9 @@ class _HistoryPageState extends State<HistoryPage> {
                       IconButton(
                           onPressed: () => historyController.descressVehicle(),
                           icon: Icon(
-                            CupertinoIcons.arrow_left_circle_fill,
+                            Get.find<MyLocaleController>().lan.value == "en"
+                                ? CupertinoIcons.arrow_left_circle_fill
+                                : CupertinoIcons.arrow_right_circle_fill,
                             color: AppColors.white,
                             size: 25,
                           )),
@@ -56,7 +59,9 @@ class _HistoryPageState extends State<HistoryPage> {
                       IconButton(
                           onPressed: () => historyController.incressVehicle(),
                           icon: Icon(
-                            CupertinoIcons.arrow_right_circle_fill,
+                            Get.find<MyLocaleController>().lan.value == "en"
+                                ? CupertinoIcons.arrow_right_circle_fill
+                                : CupertinoIcons.arrow_left_circle_fill,
                             color: AppColors.white,
                             size: 25,
                           )),
@@ -67,14 +72,29 @@ class _HistoryPageState extends State<HistoryPage> {
                 init: HistoryController(),
                 builder: (controller) {
                   return Expanded(
-                    child: ListView.builder(
-                      itemCount: controller.vehicleTickets.length,
-                      itemBuilder: (context, index) {
-                        return HistoryCard(
-                          ticket: controller.vehicleTickets[index],
-                        );
-                      },
-                    ),
+                    child: controller.vehicleTickets.isEmpty
+                        ? Column(
+                            children: [
+                              SizedBox(
+                                height: 200,
+                              ),
+                              Text(
+                                "No data found..!".tr,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.white),
+                              ),
+                            ],
+                          )
+                        : ListView.builder(
+                            itemCount: controller.vehicleTickets.length,
+                            itemBuilder: (context, index) {
+                              return HistoryCard(
+                                ticket: controller.vehicleTickets[index],
+                              );
+                            },
+                          ),
                   );
                 }),
           ],

@@ -24,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('emirates smart parking'.toUpperCase()),
+        title: Text('emirates smart parking'.toUpperCase().tr),
         centerTitle: true,
         leading: SizedBox(),
         leadingWidth: 0,

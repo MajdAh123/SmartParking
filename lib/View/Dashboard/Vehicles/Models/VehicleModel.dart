@@ -1,16 +1,16 @@
 class Vehicle {
   int id;
-  String plateSource;
-  String plateType;
-  String plateCode;
+  int plateSourceId;
+  // String plateType;
+  int plateCodeId;
   String plateNumber;
   bool isPrimary;
 
   Vehicle({
     required this.id,
-    required this.plateSource,
-    required this.plateType,
-    required this.plateCode,
+    required this.plateSourceId,
+    // required this.plateType,
+    required this.plateCodeId,
     required this.plateNumber,
     required this.isPrimary,
   });
@@ -18,9 +18,9 @@ class Vehicle {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'plateSource': plateSource,
-      'plateType': plateType,
-      'plateCode': plateCode,
+      'plateSource': plateSourceId,
+      // 'plateType': plateType,
+      'plateCode': plateCodeId,
       'plateNumber': plateNumber,
       'isPrimary': isPrimary,
     };
@@ -29,9 +29,9 @@ class Vehicle {
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
       id: json['id'] as int,
-      plateSource: json['plateSource'] as String,
-      plateType: json['plateType'] as String,
-      plateCode: json['plateCode'] as String,
+      plateSourceId: json['plateSource'] as int,
+      // plateType: json['plateType'] as String,
+      plateCodeId: json['plateCode'] as int,
       plateNumber: json['plateNumber'] as String,
       isPrimary: json['isPrimary'] as bool,
     );

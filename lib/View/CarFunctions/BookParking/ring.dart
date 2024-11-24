@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:smart_parking/View/CarFunctions/BookParking/Controllers/book_parking_Controller.dart';
 import 'package:smart_parking/View/CarFunctions/Model/TicketModel.dart';
 import 'package:smart_parking/View/CarFunctions/Widgets/buttons.dart';
+import 'package:smart_parking/View/Dashboard/Home/Controllers/home_page_Controller.dart';
+import 'package:smart_parking/View/Dashboard/Home/Widget/courlsCardOne.dart';
 import 'package:smart_parking/View/Dashboard/bottom_bar.dart';
 
 import '../../../constant/appcolors.dart';
@@ -38,7 +40,7 @@ class _ExampleAlarmRingScreenState extends State<ExampleAlarmRingScreen> {
         appBar: AppBar(
           leading: SizedBox(),
           leadingWidth: 5,
-          title: Text("EMIRATES SMART PARKING"),
+          title: Text("EMIRATES SMART PARKING".tr),
           centerTitle: true,
         ),
         body: GetBuilder(
@@ -69,75 +71,82 @@ class _ExampleAlarmRingScreenState extends State<ExampleAlarmRingScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: AppColors.white),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                        color: Colors.black, width: 2),
-                                    color: AppColors.white),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      controller
-                                          .getVehicleById(widget.ticket.carId)
-                                          .plateCode,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          AppData.translateToArabic(controller
-                                              .getVehicleById(
-                                                  widget.ticket.carId)
-                                              .plateSource),
-                                          style: TextStyle(
-                                              height: 1,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          controller
-                                              .getVehicleById(
-                                                  widget.ticket.carId)
-                                              .plateSource,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      controller
-                                          .getVehicleById(widget.ticket.carId)
-                                          .plateNumber,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   padding: EdgeInsets.all(2),
+                            //   decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(4),
+                            //       color: AppColors.white),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(4),
+                            //         border: Border.all(
+                            //             color: Colors.black, width: 2),
+                            //         color: AppColors.white),
+                            //     child: Row(
+                            //       mainAxisSize: MainAxisSize.min,
+                            //       children: [
+                            //         SizedBox(
+                            //           width: 10,
+                            //         ),
+                            //         Text(
+                            //           controller
+                            //               .getVehicleById(widget.ticket.carId)
+                            //               .plateCodeId
+                            //               .toString(),
+                            //           style: TextStyle(
+                            //               fontSize: 18,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //         SizedBox(
+                            //           width: 5,
+                            //         ),
+                            //         Column(
+                            //           children: [
+                            //             Text(
+                            //               AppData.translateToArabic(controller
+                            //                   .getVehicleById(
+                            //                       widget.ticket.carId)
+                            //                   .plateSourceId
+                            //                   .toString()),
+                            //               style: TextStyle(
+                            //                   height: 1,
+                            //                   fontSize: 13,
+                            //                   fontWeight: FontWeight.bold),
+                            //             ),
+                            //             Text(
+                            //               controller
+                            //                   .getVehicleById(
+                            //                       widget.ticket.carId)
+                            //                   .plateSourceId
+                            //                   .toString(),
+                            //               style: TextStyle(
+                            //                   fontSize: 13,
+                            //                   fontWeight: FontWeight.bold),
+                            //             )
+                            //           ],
+                            //         ),
+                            //         SizedBox(
+                            //           width: 5,
+                            //         ),
+                            //         Text(
+                            //           controller
+                            //               .getVehicleById(widget.ticket.carId)
+                            //               .plateNumber,
+                            //           style: TextStyle(
+                            //               fontSize: 16,
+                            //               fontWeight: FontWeight.bold),
+                            //         ),
+                            //         SizedBox(
+                            //           width: 10,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            CarCardNumber(
+                                isexpanded: true,
+                                vehicle: Get.find<HomePageController>()
+                                    .getVehicleById(widget.ticket.carId)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +154,7 @@ class _ExampleAlarmRingScreenState extends State<ExampleAlarmRingScreen> {
                                 Column(
                                   children: [
                                     Text(
-                                      "emirate".tr.toUpperCase(),
+                                      "City".tr.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
@@ -308,7 +317,7 @@ class _ExampleAlarmRingScreenState extends State<ExampleAlarmRingScreen> {
 
                                     BookParkingController
                                         bookParkingController =
-                                        Get.put(BookParkingController());
+                                        Get.find<BookParkingController>();
                                     bookParkingController.SlectedTikcet =
                                         updatedTicket;
                                     bookParkingController.selectedVehicle =

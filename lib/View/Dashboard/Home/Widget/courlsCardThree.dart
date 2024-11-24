@@ -4,7 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:smart_parking/View/CarFunctions/BookParking/Controllers/book_parking_Controller.dart';
 import 'package:smart_parking/View/CarFunctions/Model/TicketModel.dart';
 import 'package:smart_parking/View/Dashboard/Home/Controllers/home_page_Controller.dart';
+import 'package:smart_parking/View/Dashboard/Home/Widget/courlsCardOne.dart';
+import 'package:smart_parking/View/Dashboard/Vehicles/Controllers/vehicle_Controller.dart';
 import 'package:smart_parking/constant/methods.dart';
+import 'package:smart_parking/logale/locale_Cont.dart';
 import '../../../../constant/appcolors.dart';
 import '../../../../constant/data.dart';
 import '../../../../constant/size.dart';
@@ -30,65 +33,86 @@ class _CarouselCardThreeState extends State<CarouselCardThree> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: AppColors.white),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.black, width: 2),
-                    color: AppColors.white),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      _homePage.getVehicleById(widget.ticket.carId).plateCode,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          AppData.translateToArabic(_homePage
-                              .getVehicleById(widget.ticket.carId)
-                              .plateSource),
-                          style: TextStyle(
-                              height: 1,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          _homePage
-                              .getVehicleById(widget.ticket.carId)
-                              .plateSource,
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      _homePage.getVehicleById(widget.ticket.carId).plateNumber,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   padding: EdgeInsets.all(2),
+            //   decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(4),
+            //       color: AppColors.white),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(4),
+            //         border: Border.all(color: Colors.black, width: 2),
+            //         color: AppColors.white),
+            //     child: Row(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         SizedBox(
+            //           width: 10,
+            //         ),
+            //         Text(
+            //           _homePage
+            //               .getVehicleById(widget.ticket.carId)
+            //               .plateCodeId
+            //               .toString(),
+            //           style:
+            //               TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            //         ),
+            //         SizedBox(
+            //           width: 5,
+            //         ),
+            //         Column(
+            //           children: [
+            //             Text(
+            //               Get.find<MyLocaleController>().lan.value == "en"
+            //                   ? Get.find<VehicleController>()
+            //                       .allPlateSource
+            //                       .lastWhere((element) =>
+            //                           _homePage
+            //                               .getVehicleById(widget.ticket.carId)
+            //                               .plateSourceId ==
+            //                           element.id)
+            //                       .cityEn
+            //                   : Get.find<VehicleController>()
+            //                       .allPlateSource
+            //                       .lastWhere((element) =>
+            //                           _homePage
+            //                               .getVehicleById(widget.ticket.carId)
+            //                               .plateSourceId ==
+            //                           element.id)
+            //                       .cityAr,
+            //               style: TextStyle(
+            //                   height: 1,
+            //                   fontSize: 13,
+            //                   fontWeight: FontWeight.bold),
+            //             ),
+            //             Text(
+            //               _homePage
+            //                   .getVehicleById(widget.ticket.carId)
+            //                   .plateSourceId
+            //                   .toString(),
+            //               style: TextStyle(
+            //                   fontSize: 13, fontWeight: FontWeight.bold),
+            //             )
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           width: 5,
+            //         ),
+            //         Text(
+            //           _homePage.getVehicleById(widget.ticket.carId).plateNumber,
+            //           style:
+            //               TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            //         ),
+            //         SizedBox(
+            //           width: 10,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            CarCardNumber(
+                isexpanded: true,
+                vehicle: _homePage.getVehicleById(widget.ticket.carId)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +269,7 @@ class _CarouselCardThreeState extends State<CarouselCardThree> {
                     //         updatedTicket.duration))));
 
                     BookParkingController bookParkingController =
-                        Get.put(BookParkingController());
+                        Get.find<BookParkingController>();
                     bookParkingController.SlectedTikcet = updatedTicket;
                     bookParkingController.selectedVehicle =
                         _homePage.getVehicleById(widget.ticket.carId);
@@ -309,7 +333,8 @@ class _CarouselCardThreeState extends State<CarouselCardThree> {
                               Get.back();
                               bookParkingController.selectedSimSlot.value =
                                   element.slotIndex;
-
+                              bookParkingController.selectedVehicle =
+                                  _homePage.getVehicleById(widget.ticket.carId);
                               await bookParkingController.sendSMS();
                             },
                             child: Row(children: [

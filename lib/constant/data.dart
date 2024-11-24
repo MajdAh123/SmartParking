@@ -1,12 +1,13 @@
 class AppData {
   static const Map<String, String> parkingPhoneNumber = {
-    'Abu Dhabi': '5566',
-    'Dubai': '5566',
+    'Abu Dhabi': '3009',
+    'Dubai': '7275',
     'Sharjah': '5566',
     'Ajman': '5155',
     'Umm Al Quwain': '5566',
     'Ras Al Khaimah': '5566',
-    'Fujairah': '5566'
+    'Fujairah': '5566',
+    "Khor Fakkan": "5566"
   };
 
   // "5155";
@@ -18,6 +19,7 @@ class AppData {
   static const String Umm_Al_Quwain = "Umm Al Quwain";
   static const String Ras_Al_Khaimah = "Ras Al Khaimah";
   static const String Fujairah = "Fujairah";
+  static const String Khor_Fakkan = "Khor Fakkan";
 
   static const List<String> emirates = [
     'Abu Dhabi',

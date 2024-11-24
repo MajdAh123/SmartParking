@@ -85,7 +85,17 @@ class MyLocale implements Translations {
           "VEHICLES": "المركبات",
           "CONTACT US": "اتصل بنا",
           "SETTINGS": "الإعدادات",
-          "The vehicle has been updated":"تم تحديث بيانات المركبة"
+          "The vehicle has been updated": "تم تحديث بيانات المركبة",
+          "EMIRATES SMART PARKING": "مواقف الإمارات الذكية",
+          "Add Vehicle": "إضافة مركبة",
+          "Select an option": "اختر من القائمة",
+          "All fields is required": "جميع الحقول مطلوبة",
+          "Error": "خطأ",
+          "City": "المدينة",
+          "No data found..!": "لا يوجد بيانات..!",
+          'Reply': "إرسال",
+          "Opps...!": "للأسف...!",
+          "Something wrong": "حصل شيء خطأ"
         },
       };
 }

@@ -25,7 +25,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
       appBar: AppBar(
         leading: SizedBox(),
         leadingWidth: 5,
-        title: Text("EMIRATES SMART PARKING"),
+        title: Text("EMIRATES SMART PARKING".tr),
         centerTitle: true,
       ),
       body: Container(
@@ -39,21 +39,21 @@ class _VehiclesPageState extends State<VehiclesPage> {
                   fontSize: 18,
                   fontWeight: FontWeight.w500),
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  "make\nprimary".tr.toUpperCase(),
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white),
-                  textAlign: TextAlign.center,
-                )
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     SizedBox(
+            //       width: 15,
+            //     ),
+            //     Text(
+            //       "make\nprimary".tr.toUpperCase(),
+            //       style: TextStyle(
+            //           fontSize: 13,
+            //           fontWeight: FontWeight.w600,
+            //           color: AppColors.white),
+            //       textAlign: TextAlign.center,
+            //     )
+            //   ],
+            // ),
             // Builder(
             //   builder: (context) {
             //     List<bool> alldata = [false, false, false];
@@ -125,17 +125,21 @@ class _MyVehicalCardState extends State<MyVehicalCard> {
           ),
           BlueButtonSmall(
               onTap: () {
-                vehicleController.plateSource.value =
-                    widget.vehicle.plateSource;
-                vehicleController.plateCode.value = widget.vehicle.plateCode;
-                vehicleController.plateType.value = widget.vehicle.plateType;
+                vehicleController.plateSourceId.value =
+                    widget.vehicle.plateSourceId;
+                vehicleController.plateCodeId.value =
+                    widget.vehicle.plateCodeId;
+                // vehicleController.plateType.value = widget.vehicle.plateType;
                 vehicleController.platenumber.text = widget.vehicle.plateNumber;
                 vehicleController.isprimary.value = widget.vehicle.isPrimary;
                 vehicleController.plateid.value = widget.vehicle.id;
-                vehicleController.allPlateType.value =
-                    AppData.plateTypesInEmirates[widget.vehicle.plateSource]!;
-                vehicleController.allPlateCode.value =
-                    AppData.emiratePlateCodes[widget.vehicle.plateSource]!;
+                // vehicleController.allPlateType.value =
+                //     AppData.plateTypesInEmirates[widget.vehicle.plateSource]!;
+                vehicleController.allPlateCode
+                    .where((p0) => p0.emirateId == widget.vehicle.plateSourceId)
+                    .toList();
+                // =
+                //     AppData.emiratePlateCodes[widget.vehicle.plateSourceId]!;
                 Get.to(() => AddVehiclePage(
                       isupdate: true,
                     ));

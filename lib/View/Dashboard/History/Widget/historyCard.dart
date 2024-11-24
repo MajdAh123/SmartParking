@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -186,10 +188,13 @@ class HistoryCard extends StatelessWidget {
                     //         updatedTicket.duration))));
 
                     BookParkingController bookParkingController =
-                        Get.put(BookParkingController());
+                        Get.find<BookParkingController>();
                     bookParkingController.SlectedTikcet = updatedTicket;
                     bookParkingController.selectedVehicle =
                         bookParkingController.getVehicleById(ticket.carId);
+                    log(bookParkingController
+                        .getVehicleById(ticket.carId)
+                        .plateNumber);
                     // updatedTicket = Ticket(
                     //     id: 0,
                     //     carId: 0,

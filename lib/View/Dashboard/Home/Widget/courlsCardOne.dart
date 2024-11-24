@@ -13,6 +13,7 @@ import 'package:smart_parking/View/Dashboard/Vehicles/Models/VehicleModel.dart';
 import 'package:smart_parking/View/Dashboard/Vehicles/addVehicle.dart';
 import 'package:smart_parking/constant/appcolors.dart';
 import 'package:smart_parking/constant/data.dart';
+import 'package:smart_parking/logale/locale_Cont.dart';
 import '../../../../constant/size.dart';
 
 class CarouselCardOne extends StatelessWidget {
@@ -42,8 +43,13 @@ class CarouselCardOne extends StatelessWidget {
                   title: "Book A Parking".tr,
                   ontap: () {
                     BookParkingController bookParkingController =
-                        Get.put(BookParkingController());
+                        Get.find<BookParkingController>();
                     bookParkingController.selectedVehicle = vehicle;
+                    // bookParkingController.emirate.value = "";
+                    bookParkingController.zoneCode.value = "";
+                    bookParkingController.duration.value = "";
+                    bookParkingController.parkingCost.value = 0.0;
+                    bookParkingController.zoneNumber.text = "";
                     Get.to(() => BookParkingPage(
                           vehicle: vehicle,
                         ));
@@ -100,106 +106,140 @@ class CarouselCardOne extends StatelessWidget {
   }
 }
 
-class CarCardNumber extends StatelessWidget {
+class CarCardNumber extends GetView<VehicleController> {
   CarCardNumber({super.key, required this.vehicle, this.isexpanded = false});
   final bool isexpanded;
   Vehicle vehicle;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // width: Appsize.width(context) * 0.48,
-      constraints: BoxConstraints(
-          maxWidth: Appsize.width(context) * 0.45,
-          minWidth: Appsize.width(context) * 0.2),
-      padding: EdgeInsets.all(2),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4), color: AppColors.white),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black, width: 2),
-            color: AppColors.white),
-        child: Row(
-          mainAxisSize: isexpanded ? MainAxisSize.max : MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 10,
-            ),
-            ConstrainedBox(
+    return Obx(
+      () => controller.isLoading.isTrue
+          ? CircularProgressIndicator()
+          : Container(
+              // width: Appsize.width(context) * 0.48,
               constraints: BoxConstraints(
-                minWidth: Appsize.width(context) * 0.02,
-                maxWidth: Appsize.width(context) * 0.09,
-              ),
-              child: AutoSizeText(
-                vehicle.plateCode.toUpperCase(),
-                maxFontSize: 16,
-                minFontSize: 12,
+                  maxWidth: Appsize.width(context) * 0.5,
+                  minWidth: Appsize.width(context) * 0.22),
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: AppColors.white),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.black, width: 2),
+                    color: AppColors.white),
+                child: Row(
+                  mainAxisSize:
+                      isexpanded ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: Appsize.width(context) * 0.02,
+                        maxWidth: Appsize.width(context) * 0.09,
+                      ),
+                      child: AutoSizeText(
+                        // vehicle.plateCodeId.toString().toUpperCase(),
+                        Get.find<MyLocaleController>().lan.value == "en"
+                            ? controller.allPlateCode
+                                .where((p0) => p0.id == vehicle.plateCodeId)
+                                .toList()
+                                .first
+                                .codeEn
+                            : controller.allPlateCode
+                                .where((p0) => p0.id == vehicle.plateCodeId)
+                                .toList()
+                                .first
+                                .codeAr,
+                        maxFontSize: 16,
+                        minFontSize: 12,
 
-                // controller: _textEditingController,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                        // controller: _textEditingController,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                      ),
+                    ),
+                    // Flexible(
+                    //   child: Text(
+                    //     vehicle.plateCode,
+                    //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      constraints: BoxConstraints(
+                          maxWidth: Appsize.width(context) * 0.15,
+                          minWidth: Appsize.width(context) * 0.1),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            controller.allPlateSource
+                                .lastWhere((element) =>
+                                    element.id == vehicle.plateSourceId)
+                                .cityAr,
+                            // .where((p0) => p0.id == vehicle.plateSourceId)
+                            // .toList()
+                            // .first
+                            // .cityAr,
+                            // AppData.translateToArabic(vehicle.plateSourceId.toString()),
+                            maxLines: 1,
+                            maxFontSize: 14,
+                            minFontSize: 7,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                height: 1, fontWeight: FontWeight.bold),
+                          ),
+                          AutoSizeText(
+                            // vehicle.plateSourceId.toString().toUpperCase(),
+                            controller.allPlateSource
+                                .lastWhere((element) =>
+                                    element.id == vehicle.plateSourceId)
+                                .cityEn,
+                            // .where((p0) => p0.id == vehicle.plateSourceId)
+                            // .toList()
+                            // .first
+                            // .cityEn,
+                            maxLines: 1,
+                            maxFontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                            minFontSize: 7,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: Appsize.width(context) * 0.12,
+                        maxWidth: Appsize.width(context) * 0.14,
+                      ),
+                      child: AutoSizeText(
+                        vehicle.plateNumber,
+                        maxFontSize: 18,
+                        minFontSize: 12,
+                        maxLines: 1,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    )
+                  ],
                 ),
-                maxLines: 1,
               ),
             ),
-            // Flexible(
-            //   child: Text(
-            //     vehicle.plateCode,
-            //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              constraints: BoxConstraints(
-                  maxWidth: Appsize.width(context) * 0.15,
-                  minWidth: Appsize.width(context) * 0.1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AutoSizeText(
-                    AppData.translateToArabic(vehicle.plateSource),
-                    maxLines: 1,
-                    maxFontSize: 14,
-                    minFontSize: 7,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(height: 1, fontWeight: FontWeight.bold),
-                  ),
-                  AutoSizeText(
-                    vehicle.plateSource.toUpperCase(),
-                    maxLines: 1,
-                    maxFontSize: 14,
-                    overflow: TextOverflow.ellipsis,
-                    minFontSize: 7,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: Appsize.width(context) * 0.08,
-                maxWidth: Appsize.width(context) * 0.09,
-              ),
-              child: AutoSizeText(
-                vehicle.plateNumber,
-                maxFontSize: 18,
-                minFontSize: 12,
-                maxLines: 1,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              width: 5,
-            )
-          ],
-        ),
-      ),
     );
   }
 }

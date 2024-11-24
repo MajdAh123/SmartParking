@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_parking/constant/size.dart';
 import '../../../constant/appcolors.dart';
 
@@ -12,9 +13,9 @@ class DropDownItemWidget extends StatelessWidget {
       this.isEnable = true,
       this.dropIconColor = Colors.black});
   final String label;
-  final List<String> items;
+  final List items;
   final String stelctedItem;
-  final void Function(String?) onchange;
+  final void Function(dynamic) onchange;
   final bool isEnable;
   final Color dropIconColor;
   @override
@@ -41,26 +42,32 @@ class DropDownItemWidget extends StatelessWidget {
           SizedBox(
             height: 40,
             child: IgnorePointer(
-              ignoring: !isEnable,
-              child: DropdownButton<String>(
-                // enableFeedback: true,
-
+              ignoring: !isEnable, // Disables interaction when needed
+              child: DropdownButton(
                 menuMaxHeight: Appsize.height(context) * 0.5,
                 isExpanded: true,
                 iconSize: 30,
                 iconDisabledColor: dropIconColor,
                 iconEnabledColor: dropIconColor,
                 padding: EdgeInsets.zero,
-                underline: SizedBox(),
+                underline: SizedBox(), // Removes the underline
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
                 ),
-                value: stelctedItem,
+
+                // Set value to null by default if nothing is selected
+                value: stelctedItem.isEmpty ? null : stelctedItem,
+                hint: Text(
+                  "Select an option".tr, // Hint text when nothing is selected
+                  style: TextStyle(color: AppColors.black),
+                ),
+
                 onChanged: onchange,
 
-                items: items.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
+                // Populate the dropdown items
+                items: items.map<DropdownMenuItem>((value) {
+                  return DropdownMenuItem(
                     value: value,
                     child: Text(value),
                   );

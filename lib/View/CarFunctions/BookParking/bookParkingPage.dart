@@ -1,4 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:developer';
+
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,14 +32,14 @@ class _BookParkingPageState extends State<BookParkingPage> {
   VehicleController vehicleController = Get.put(VehicleController());
 
   BookParkingController bookParkingController =
-      Get.put(BookParkingController());
+      Get.find<BookParkingController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox(),
         leadingWidth: 5,
-        title: Text("EMIRATES SMART PARKING"),
+        title: Text("EMIRATES SMART PARKING".tr),
         centerTitle: true,
       ),
       body: Container(
@@ -63,8 +65,8 @@ class _BookParkingPageState extends State<BookParkingPage> {
                             fontSize: 18,
                             fontWeight: FontWeight.w500),
                       ),
-                      CarouselSlider(
-                        options: CarouselOptions(
+                      carousel.CarouselSlider(
+                        options: carousel.CarouselOptions(
                             enableInfiniteScroll: false,
                             onPageChanged: (index, reason) {
                               print(index);
@@ -105,36 +107,67 @@ class _BookParkingPageState extends State<BookParkingPage> {
                         () => Column(
                           children: [
                             DropDownItemWidget(
-                              label: "EMIRATE".tr,
-                              items: AppData.emirates,
+                              label: "City".tr,
+                              items: bookParkingController.zoneCodesEmirate
+                                  .map((e) => e.city)
+                                  .toSet()
+                                  .toList(),
                               stelctedItem: bookParkingController.emirate.value,
-                              onchange: (String? newValue) {
+                              onchange: (newValue) {
                                 bookParkingController.emirate.value = newValue!;
-                                bookParkingController.zoneCodesEmirate.value =
-                                    AppData.emirateParkingZones[newValue]!;
-                                bookParkingController.zoneCode.value =
-                                    bookParkingController
-                                        .zoneCodesEmirate.first;
-                                bookParkingController.duration.value =
-                                    AppData.durationsParking.first;
-                                bookParkingController.parkingCost.value =
-                                    double.parse(AppMethods.extractNumbers(
-                                            bookParkingController
-                                                .duration.value)) *
-                                        bookParkingController.fixedCost.value;
+                                bookParkingController.zoneCode.value = "";
+                                bookParkingController.duration.value = "";
+                                bookParkingController.parkingCost.value = 0.0;
+                                bookParkingController.zoneNumber.text = "";
+                                // bookParkingController.zoneCodesEmirate.value =
+                                //     AppData.emirateParkingZones[newValue]!;
+                                // bookParkingController.zoneCode.value =
+                                //     bookParkingController
+                                //         .zoneCodesEmirate.first;
+                                // bookParkingController.duration.value =
+                                //     AppData.durationsParking.first;
+                                // bookParkingController.parkingCost.value =
+                                //     double.parse(AppMethods.extractNumbers(
+                                //             bookParkingController
+                                //                 .duration.value)) *
+                                //         bookParkingController.fixedCost.value;
                                 // setState(() {});
                               },
                             ),
-                            if (![AppData.Ajman, AppData.Sharjah]
-                                .contains(bookParkingController.emirate.value))
+                            if (bookParkingController.zoneCodesEmirate
+                                        .where((p0) =>
+                                            p0.city ==
+                                            bookParkingController.emirate.value)
+                                        .map((e) => e.zone)
+                                        .toSet()
+                                        .toList()
+                                        .length !=
+                                    1 &&
+                                bookParkingController.zoneCodesEmirate
+                                        .where((p0) =>
+                                            p0.city ==
+                                            bookParkingController.emirate.value)
+                                        .map((e) => e.zone)
+                                        .toSet()
+                                        .toList()
+                                        .first !=
+                                    "...")
                               DropDownItemWidget(
                                 label: "zone code".tr,
-                                items: bookParkingController.zoneCodesEmirate,
+                                items: bookParkingController.zoneCodesEmirate
+                                    .where((p0) =>
+                                        p0.city ==
+                                        bookParkingController.emirate.value)
+                                    .map((e) => e.zone)
+                                    .toSet()
+                                    .toList(),
                                 stelctedItem:
                                     bookParkingController.zoneCode.value,
-                                onchange: (String? newValue) {
+                                onchange: (newValue) {
                                   bookParkingController.zoneCode.value =
                                       newValue!;
+                                  bookParkingController.duration.value = "";
+                                  bookParkingController.parkingCost.value = 0.0;
 
                                   // setState(() {});
                                 },
@@ -147,24 +180,74 @@ class _BookParkingPageState extends State<BookParkingPage> {
                                   textEditingController:
                                       bookParkingController.zoneNumber),
                             DropDownItemWidget(
-                              dropIconColor:
-                                  bookParkingController.emirate.value !=
-                                          AppData.Ajman
-                                      ? AppColors.black
-                                      : Colors.transparent,
-                              isEnable: bookParkingController.emirate.value !=
-                                  AppData.Ajman,
+                              // dropIconColor:
+                              //     bookParkingController.emirate.value !=
+                              //             AppData.Ajman
+                              //         ? AppColors.black
+                              //         : Colors.transparent,
+                              // isEnable: bookParkingController.emirate.value !=
+                              //     AppData.Ajman,
                               label: "Duration".tr,
-                              items: AppData.durationsParking,
+                              items: bookParkingController.zoneCodesEmirate
+                                  .where((p0) => p0.city ==
+                                                  bookParkingController
+                                                      .emirate.value &&
+                                              bookParkingController
+                                                      .emirate.value ==
+                                                  "Ajman" ||
+                                          bookParkingController.emirate.value ==
+                                              "Sharjah" ||
+                                          bookParkingController.emirate.value ==
+                                              AppData.Khor_Fakkan
+                                      ? p0.zone == "..."
+                                      : p0.zone ==
+                                          bookParkingController.zoneCode.value)
+                                  .map((e) => e.hours.toString())
+                                  .toSet()
+                                  .toList(),
                               stelctedItem:
                                   bookParkingController.duration.value,
-                              onchange: (String? newValue) {
+                              onchange: (newValue) {
                                 bookParkingController.duration.value =
                                     newValue!;
-                                bookParkingController
-                                    .parkingCost.value = double.parse(
-                                        AppMethods.extractNumbers(newValue)) *
-                                    bookParkingController.fixedCost.value;
+
+                                if (bookParkingController.emirate.value ==
+                                        "Sharjah" ||
+                                    bookParkingController.emirate.value ==
+                                        "Ajman" ||
+                                    bookParkingController.emirate.value ==
+                                        AppData.Khor_Fakkan) {
+                                  bookParkingController.parkingCost.value =
+                                      bookParkingController.zoneCodesEmirate
+                                          .lastWhere((element) =>
+                                              element.city ==
+                                                  bookParkingController
+                                                      .emirate.value &&
+                                              element.hours ==
+                                                  double.parse(
+                                                      bookParkingController
+                                                          .duration.value))
+                                          .totalPrice;
+                                } else {
+                                  bookParkingController.parkingCost.value =
+                                      bookParkingController.zoneCodesEmirate
+                                          .lastWhere((element) =>
+                                              element.city ==
+                                                  bookParkingController
+                                                      .emirate.value &&
+                                              element.zone ==
+                                                  bookParkingController
+                                                      .zoneCode.value &&
+                                              element.hours ==
+                                                  double.parse(
+                                                      bookParkingController
+                                                          .duration.value))
+                                          .totalPrice;
+                                }
+
+                                // double.parse(
+                                //     AppMethods.extractNumbers(newValue)) *
+                                // bookParkingController.fixedCost.value;
                                 // contr.update();
                                 // setState(() {});
                               },
@@ -178,7 +261,7 @@ class _BookParkingPageState extends State<BookParkingPage> {
                               margin: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 20),
                               child: Text(
-                                "${bookParkingController.parkingCost} AED",
+                                "${bookParkingController.parkingCost.value.toStringAsFixed(2)} AED",
                                 style: TextStyle(
                                     color: AppColors.white,
                                     fontSize: 18,
@@ -189,8 +272,7 @@ class _BookParkingPageState extends State<BookParkingPage> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 25),
                               child: Text(
-                                "Parking timings in selected zone is 8:00 AM to 10:00 PM,(Sat - Thu). Free parking on fridays and public holidays (maximum time allowed is 4 hours)"
-                                    .tr,
+                                bookParkingController.parkingText(),
                                 style: TextStyle(
                                     color: AppColors.white, fontSize: 13),
                                 textAlign: TextAlign.center,
@@ -261,6 +343,8 @@ class _BookParkingPageState extends State<BookParkingPage> {
                               bookParkingController.selectedSimSlot.value =
                                   element.slotIndex;
                               await bookParkingController.sendSMS();
+                              log(AppMethods.extractNumbers(
+                                  bookParkingController.duration.value));
                             },
                             child: Row(children: [
                               Icon(Icons.sim_card),

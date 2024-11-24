@@ -2,6 +2,7 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:smart_parking/View/Dashboard/Bindings/InitBinding.dart';
 import 'package:smart_parking/View/SplashContoller.dart';
 import 'package:smart_parking/View/splash_page.dart';
 import 'package:smart_parking/constant/appcolors.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primeryColor),
         useMaterial3: true,
       ),
-      initialBinding: BindingsBuilder.put(() => Get.put(SplashController())),
+      initialBinding: InitBinding(),
       home: const SplashPage(),
     );
   }

@@ -22,7 +22,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
       appBar: AppBar(
         leading: SizedBox(),
         leadingWidth: 5,
-        title: Text("EMIRATES SMART PARKING"),
+        title: Text("EMIRATES SMART PARKING".tr),
         centerTitle: true,
       ),
       body: Container(
