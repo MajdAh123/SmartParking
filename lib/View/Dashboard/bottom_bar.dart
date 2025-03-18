@@ -42,10 +42,10 @@ class BottomBarPage extends GetView<BottomBarController> {
             //   // Icon(Icons.history),
             //   label: 'Notifications'.toUpperCase(),
             // ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.messenger_outline_rounded),
-              label: 'CONTACT US'.tr.toUpperCase(),
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.messenger_outline_rounded),
+            //   label: 'CONTACT US'.tr.toUpperCase(),
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Ionicons.settings_outline),
               label: 'SETTINGS'.tr.toUpperCase(),

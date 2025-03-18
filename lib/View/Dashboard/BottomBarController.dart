@@ -13,7 +13,7 @@ class BottomBarController extends GetxController {
     HomePage(),
     VehiclesPage(),
     // SizedBox(),
-    ContactUsPage(),
+    // ContactUsPage(),
     SettingsPage(),
   ];
 

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smart_parking/View/Dashboard/BottomBarController.dart';
 import 'package:smart_parking/View/Dashboard/Vehicles/Controllers/vehicle_Controller.dart';
+import 'package:smart_parking/View/Dashboard/Vehicles/addVehicle.dart';
 import 'package:smart_parking/constant/appcolors.dart';
 import 'package:smart_parking/constant/methods.dart';
 import 'package:smart_parking/constant/size.dart';
@@ -154,7 +155,8 @@ class _HomePageState extends State<HomePage> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)))),
                         onPressed: () {
-                          Get.find<BottomBarController>().onItemTapped(1);
+                          // Get.find<BottomBarController>().onItemTapped(1);
+                          Get.to(AddVehiclePage());
                         },
                         child: Text("Add Vehicle".tr))
                     : carousel.CarouselSlider(

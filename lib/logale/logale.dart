@@ -95,7 +95,8 @@ class MyLocale implements Translations {
           "No data found..!": "لا يوجد بيانات..!",
           'Reply': "إرسال",
           "Opps...!": "للأسف...!",
-          "Something wrong": "حصل شيء خطأ"
+          "Something wrong": "حصل شيء خطأ",
+          "minutes": "دقائق"
         },
       };
 }

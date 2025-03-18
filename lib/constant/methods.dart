@@ -145,7 +145,7 @@ class AppMethods {
   }
 
   static String formatDuration(String duration) {
-    if (duration == "05" || duration == "0") {
+    if (duration == "05" || duration == "0" || duration == "0.5") {
       return "0.5";
     } else {
       return double.parse(duration).toInt().toString();

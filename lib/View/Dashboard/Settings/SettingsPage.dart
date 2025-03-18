@@ -122,11 +122,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                     color: AppColors.white),
                               ),
                               Expanded(child: SizedBox()),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 18,
-                                color: AppColors.white,
-                              ),
+                              // Icon(
+                              //   Icons.arrow_forward_ios,
+                              //   size: 18,
+                              //   color: AppColors.white,
+                              // ),
+                              Text(
+                                "minutes".tr,
+                                style: TextStyle(
+                                    fontSize: 12, color: AppColors.white),
+                              )
                             ],
                           ),
                           subtitle: Slider(
@@ -237,14 +242,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                               ),
                               Expanded(child: SizedBox()),
-                              SizedBox(
-                                width: Appsize.width(context) * 0.3,
-                                child: Text(
-                                  settingsController.alertName.value,
-                                  style: TextStyle(color: AppColors.white),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
+                              // SizedBox(
+                              //   width: Appsize.width(context) * 0.3,
+                              //   child: Text(
+                              //     settingsController.alertName.value,
+                              //     style: TextStyle(color: AppColors.white),
+                              //     overflow: TextOverflow.ellipsis,
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 5,
                               ),
@@ -294,7 +299,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 Appsize.height(context) * 0.65,
                                 0,
                                 100), // Adjust the position as needed
-                            items: ['ARABIC', 'ENGLISH']
+                            items: ['العربية', 'ENGLISH']
                                 .map((lang) => PopupMenuItem<String>(
                                       value: lang
                                           .toString()
@@ -309,9 +314,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           );
                           if (selectedValue != null) {
                             settingsController.appLanguage.value =
-                                selectedValue;
+                                selectedValue == "ال" ? "ar" : "en";
                             settingsController.saveSettings();
-                            myLocaleController.changeLang(selectedValue);
+                            print(settingsController.appLanguage.value);
+                            myLocaleController.changeLang(
+                                selectedValue == "ال" ? "ar" : "en");
                             // print(selectedValue);
                           }
                         },
@@ -327,11 +334,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               Expanded(child: SizedBox()),
                               Text(
-                                ['ARABIC', 'ENGLISH']
-                                    .where((element) =>
-                                        element.toLowerCase().substring(0, 2) ==
-                                        settingsController.appLanguage.value)
-                                    .toList()[0],
+                                settingsController.appLanguage.value == "en"
+                                    ? "ENGLISH"
+                                    : "العربية",
                                 style: TextStyle(color: AppColors.white),
                               ),
                               SizedBox(

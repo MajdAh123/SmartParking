@@ -16,6 +16,7 @@ import 'package:smart_parking/constant/size.dart';
 import 'package:smart_parking/View/CarFunctions/BookParking/Controllers/book_parking_Controller.dart';
 import 'package:smart_parking/View/Dashboard/Home/Controllers/home_page_Controller.dart';
 
+import '../../../logale/locale_Cont.dart';
 import '../../Dashboard/Vehicles/Models/VehicleModel.dart';
 import '../Widgets/buttons.dart';
 
@@ -112,7 +113,21 @@ class _BookParkingPageState extends State<BookParkingPage> {
                                   .map((e) => e.city)
                                   .toSet()
                                   .toList(),
-                              stelctedItem: bookParkingController.emirate.value,
+                              stelctedItem:
+                                  // Get.find<MyLocaleController>().lan.value == "en"
+                                  // ? controller.allPlateSource
+                                  //     .where((p0) =>
+                                  //         p0.id == controller.plateSourceId.value)
+                                  //     .toList()
+                                  //     .first
+                                  //     .cityEn
+                                  // : controller.allPlateSource
+                                  //     .where((p0) =>
+                                  //         p0.id == controller.plateSourceId.value)
+                                  //     .toList()
+                                  //     .first
+                                  // .cityAr
+                                  bookParkingController.emirate.value,
                               onchange: (newValue) {
                                 bookParkingController.emirate.value = newValue!;
                                 bookParkingController.zoneCode.value = "";
@@ -172,8 +187,9 @@ class _BookParkingPageState extends State<BookParkingPage> {
                                   // setState(() {});
                                 },
                               ),
-                            if (![AppData.Ajman, AppData.Sharjah]
-                                .contains(bookParkingController.emirate.value))
+                            if ([
+                              AppData.Dubai,
+                            ].contains(bookParkingController.emirate.value))
                               TextFieldContainer(
                                   label: "zone number".tr,
                                   type: TextInputType.number,

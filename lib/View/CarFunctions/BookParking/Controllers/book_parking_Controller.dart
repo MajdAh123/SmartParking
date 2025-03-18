@@ -7,6 +7,7 @@ import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -665,6 +666,10 @@ class BookParkingController extends GetxController {
   RxString senderMessageReceving = ''.obs;
   RxString timeMessageReceving = ''.obs;
   RxList<SMS> allRecivingSms = <SMS>[].obs;
+  Rx<Debouncer> debounce = Debouncer().obs;
+  RxBool checkRecivingSMS(String sender) {
+    return AppData.parkingPhoneNumber.entries.contains(sender).obs;
+  }
 
   @override
   void onInit() {
@@ -676,12 +681,16 @@ class BookParkingController extends GetxController {
         _plugin.read();
         _plugin.smsStream.listen((event) async {
           // setState(() {
-          smsMessageReceving.value = event.body;
-          senderMessageReceving.value = event.sender;
-          allRecivingSms.add(event);
-          await Future.delayed(Duration(seconds: 2)).then((onValue) =>
-              listenForSmsDelivery(
-                  allRecivingSms.last.body, allRecivingSms.last.sender));
+          if (checkRecivingSMS(event.sender).value) {
+            allRecivingSms.add(event);
+            await Future.delayed(Duration(seconds: 2)).then((onValue) =>
+                listenForSmsDelivery(
+                    allRecivingSms.last.body, allRecivingSms.last.sender));
+          } else {
+            smsMessageReceving.value = event.body;
+            senderMessageReceving.value = event.sender;
+          }
+
           // });
         });
       }
